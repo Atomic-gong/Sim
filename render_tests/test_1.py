@@ -1,0 +1,3 @@
+print("Importing")
+import pygame
+

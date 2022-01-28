@@ -1,21 +1,43 @@
 import time
 import components.organisms as organism
-import cairo
 import random
+import pygame
+
+pygame.init()
 
 creatures = []
 plants = []
 
-resolution = [1920, 1080]
+resolution = (1920, 1080)
+
+screen = pygame.display.set_mode((resolution))
 
 def spawnCreatures(num_creatures):
     for i in range(num_creatures):
-        creatures[i] = organism.Creature(0, 100, [] ,100, random.randint(-resolution[0]/2, resolution[0]/2), random.randint(-resolution[1]/2, resolution[1]/2))
+        creatures.append(organism.Creature(0, 100, [] ,100, random.randint(0, resolution[0]), random.randint(0,resolution[1])))
 
-
-while True:
+def organism_updates():
     for i in creatures:
         try:
             i.tick()
         except:
             print("Creature tick failed")
+
+def render_updates():
+    screen.fill((0,0,0))
+    
+    for i in creatures:
+        try:
+            pygame.draw.circle(screen, (255,255,255), (i.x, i.y), 3)
+        except:
+            print("Creature draw failed")
+
+    pygame.display.flip()
+    pass
+
+
+spawnCreatures(12)
+
+while True:
+    organism_updates()
+    render_updates()
